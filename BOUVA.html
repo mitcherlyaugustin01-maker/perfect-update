@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ht" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Studio Photo | Limonade, Route Nationale #6</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome pou ikon fotografi & WhatsApp -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        studio: {
+                            dark: '#0c0a14',
+                            card: '#161224',
+                            mauve: '#6d28d9',
+                            mauveLight: '#a855f7',
+                            gold: '#f59e0b',
+                            goldLight: '#fbbf24',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#0c0a14] text-slate-100 font-sans antialiased selection:bg-amber-400 selection:text-black overflow-x-hidden">
+
+    <!-- Bwat Notifikasyon (Toast) pou kopye oswa chaje logo (san alert()) -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-3 bg-slate-900 border border-amber-400/50 text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300">
+        <span id="toast-icon" class="text-amber-400 text-lg"><i class="fa-solid fa-circle-check"></i></span>
+        <span id="toast-message" class="text-sm font-medium">Aksyon fèt ak siksè!</span>
+    </div>
+
+    <!-- BAR NAVIGASYON ANWO PAJ LA -->
+    <header class="sticky top-0 z-40 bg-[#0c0a14]/90 backdrop-blur-md border-b border-purple-900/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+            
+            <!-- LOGO PS PERFECT STUDIO + OPSYON CHAJE LOGO PÈSONÈL -->
+            <div class="flex items-center gap-3">
+                <div id="logo-container" class="bg-white rounded-2xl px-3.5 py-2 shadow-lg shadow-purple-950/50 flex flex-col items-center justify-center border-2 border-amber-400/80 transition hover:scale-[1.02]">
+                    <!-- Imaj si itilizatè a chaje pwòp fichye logo li -->
+                    <img id="custom-logo-img" src="" alt="Logo Perfect Studio" class="hidden h-11 sm:h-12 w-auto object-contain rounded-lg">
+                    
+                    <!-- Repwodiksyon SVG pwòp logo PS PERFECT STUDIO ki nan imaj la -->
+                    <div id="default-svg-logo" class="flex flex-col items-center">
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 260 115" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="PS Logo">
+                            <defs>
+                                <filter id="psShadow" x="-5%" y="-5%" width="115%" height="120%">
+                                    <feDropShadow dx="-2" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.28"/>
+                                </filter>
+                            </defs>
+                            <g filter="url(#psShadow)" fill="#050505">
+                                <!-- Pati anwo P a + koub ki desann al jwenn S la -->
+                                <path d="M 32 12 L 106 12 C 122 12 132 22 138 38 C 143 52 150 56 164 56 L 218 56 C 238 56 248 67 248 82 C 248 97 236 107 216 107 L 114 107 L 136 86 L 210 86 C 218 86 222 83 222 79 C 222 75 218 72 210 72 L 156 72 C 136 72 125 63 119 46 C 114 34 108 32 98 32 L 14 32 L 32 12 Z"/>
+                                <!-- Pati anba P a (janm gòch ak koub santral) -->
+                                <path d="M 14 48 L 88 48 C 98 48 106 56 116 64 C 122 69 128 71 134 72 C 126 79 116 83 105 83 C 95 83 87 77 79 69 L 44 69 L 44 107 L 14 107 L 14 48 Z"/>
+                                <!-- Ba anwo S la -->
+                                <path d="M 132 12 L 248 12 L 228 33 L 148 33 C 141 25 136 18 132 12 Z"/>
+                            </g>
+                        </svg>
+                        <span class="font-display font-black text-[10px] sm:text-[11px] tracking-[0.06em] text-black leading-none mt-0.5">
+                            PERFECT STUDIO
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Ti bouton diskrè pou chaje pwòp fichye logo li si l vle -->
+                <div class="flex flex-col">
+                    <label for="logo-upload" title="Chanje imaj logo a" class="cursor-pointer inline-flex items-center gap-1.5 text-[11px] font-medium text-amber-300/90 hover:text-amber-300 bg-purple-950/70 hover:bg-purple-900/80 border border-purple-700/50 px-2.5 py-1.5 rounded-xl transition">
+                        <i class="fa-solid fa-image"></i>
+                        <span class="hidden sm:inline">Chaje Logo</span>
+                    </label>
+                    <input type="file" id="logo-upload" accept="image/*" class="hidden">
+                </div>
+            </div>
+
+            <!-- Lyen Navigasyon (Desktop) -->
+            <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <a href="#akey" class="hover:text-amber-400 transition">Akèy</a>
+                <a href="#pake" class="hover:text-amber-400 transition">Pri & Pake</a>
+                <a href="#rezèvasyon" class="hover:text-amber-400 transition">Fè Rezèvasyon</a>
+                <a href="#kontak" class="hover:text-amber-400 transition">Adrès & Kontak</a>
+            </nav>
+
+            <!-- Bouton Aksyon Rapid Anwo -->
+            <div class="flex items-center gap-2">
+                <a href="tel:+50938237242" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-purple-900/50 hover:bg-purple-800/70 border border-purple-500/40 text-xs font-semibold text-purple-200 transition">
+                    <i class="fa-solid fa-phone text-amber-400"></i>
+                    <span>3823-7242</span>
+                </a>
+                <a href="tel:+50935227208" class="hidden lg:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-purple-900/50 hover:bg-purple-800/70 border border-purple-500/40 text-xs font-semibold text-purple-200 transition">
+                    <i class="fa-solid fa-phone text-amber-400"></i>
+                    <span>3522-7208</span>
+                </a>
+                <a href="https://wa.me/50938237242?text=Bonjou%20Perfect%20Studio%20Photo%2C%20mwen%20ta%20renmen%20gen%20enf%C3%B2masyon%20pou%20yon%20sesyon%20foto." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-amber-500/20 transition transform active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-base sm:text-lg"></i>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEKSYON HERO (AKÈY) -->
+    <section id="akey" class="relative overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24">
+        <!-- Efè limyè estidyo (Jòn lò & Mawò) -->
+        <div class="pointer-events-none absolute -top-24 -left-24 w-80 h-80 bg-purple-700/25 rounded-full blur-3xl"></div>
+        <div class="pointer-events-none absolute top-20 -right-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Tèks Prensipal -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/90 border border-purple-500/40 text-amber-300 text-xs sm:text-sm font-semibold mb-6">
+                        <i class="fa-solid fa-location-dot text-amber-400"></i>
+                        <span>Limonade, Route Nationale #6</span>
+                    </div>
+
+                    <h1 class="font-display font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.12] mb-5">
+                        Imòtalize Pi Bèl Moman W Yo Ak <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-purple-400">Perfect Studio Photo</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-8">
+                        Bon kalite imaj, limyè pwofesyonèl ak retouch modèn nan kè Limonade. Kit se pou pòtrè pèsonèl, anivèsè, gradyasyon oswa evènman espesyal, nou ba ou rezilta ki klere!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#rezèvasyon" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-extrabold text-sm sm:text-base shadow-xl shadow-amber-500/25 transition transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Rezève Sesyon Ou Kounye a</span>
+                        </a>
+                        <a href="#pake" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-[#19142b] hover:bg-purple-900/50 border border-purple-500/40 text-white font-semibold text-sm sm:text-base transition">
+                            <i class="fa-solid fa-camera text-amber-400"></i>
+                            <span>Gade Pri & Pake Yo</span>
+                        </a>
+                    </div>
+
+                    <!-- Ti estatistik / avantaj rapid -->
+                    <div class="grid grid-cols-3 gap-3 sm:gap-6 mt-10 pt-8 border-t border-purple-900/50 max-w-lg mx-auto lg:mx-0">
+                        <div>
+                            <p class="text-amber-400 font-display font-black text-xl sm:text-2xl">HD+</p>
+                            <p class="text-slate-400 text-xs sm:text-sm">Kalite Pwofesyonèl</p>
+                        </div>
+                        <div>
+                            <p class="text-purple-400 font-display font-black text-xl sm:text-2xl">850 GDS</p>
+                            <p class="text-slate-400 text-xs sm:text-sm">Pri Kòmanse</p>
+                        </div>
+                        <div>
+                            <p class="text-amber-400 font-display font-black text-xl sm:text-2xl">Rapid</p>
+                            <p class="text-slate-400 text-xs sm:text-sm">Livrezon & Retouch</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kat Vizyèl Kamera / Estidyo -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-3xl bg-gradient-to-br from-purple-900/40 via-[#161224] to-amber-500/10 p-1.5 border border-purple-500/30 shadow-2xl">
+                        <div class="rounded-[22px] bg-[#130f20] p-6 sm:p-8 relative overflow-hidden">
+                            <!-- Sèk dekoratif lantiy kamera -->
+                            <div class="w-44 h-44 sm:w-52 sm:h-52 mx-auto rounded-full bg-gradient-to-tr from-purple-950 via-slate-900 to-amber-500/30 p-3 border-2 border-amber-400/50 shadow-inner flex items-center justify-center relative mb-6">
+                                <div class="w-full h-full rounded-full bg-[#090710] border border-purple-500/40 flex flex-col items-center justify-center text-center p-4">
+                                    <i class="fa-solid fa-camera-retro text-4xl sm:text-5xl text-amber-400 mb-2"></i>
+                                    <span class="font-display font-black text-xs tracking-widest text-white uppercase">PERFECT STUDIO</span>
+                                    <span class="text-[11px] text-purple-300 mt-0.5">PHOTOGRAPHY</span>
+                                </div>
+                                <span class="absolute top-3 right-5 w-3.5 h-3.5 rounded-full bg-amber-400 animate-pulse"></span>
+                            </div>
+
+                            <div class="text-center space-y-2">
+                                <h2 class="font-bold text-lg sm:text-xl text-white">Estidyo Foto Modèn nan Limonade</h2>
+                                <p class="text-xs sm:text-sm text-slate-400">
+                                    Ekipman modèn, bèl dekorasyon ak akèy chalere sou Route Nationale #6.
+                                </p>
+                                <div class="pt-3 flex flex-wrap items-center justify-center gap-2">
+                                    <a href="tel:+50938237242" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-amber-300 text-xs font-bold border border-purple-500/40 transition">
+                                        <i class="fa-solid fa-phone-volume"></i>
+                                        <span>3823-7242</span>
+                                    </a>
+                                    <a href="tel:+50935227208" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-amber-300 text-xs font-bold border border-purple-500/40 transition">
+                                        <i class="fa-solid fa-phone-volume"></i>
+                                        <span>3522-7208</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKSYON PRI & PAKE FOTO -->
+    <section id="pake" class="py-16 sm:py-20 bg-[#100d1b] border-y border-purple-900/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+                <span class="inline-block px-3 py-1 rounded-full bg-amber-400/15 text-amber-400 text-xs font-bold uppercase tracking-wider mb-3">
+                    Tarif Ofisyèl Estidyo a
+                </span>
+                <h2 class="font-display font-black text-2xl sm:text-4xl text-white mb-3">
+                    Chwazi Pake Foto Ki Konvni Ou
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base">
+                    Tout pake nou yo gen ladan yo bèl retouch pwofesyonèl. Klike sou yon pake pou rezève dirèkteman sou WhatsApp.
+                </p>
+            </div>
+
+            <!-- 3 Kat Pake Foto yo -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+                
+                <!-- PAKE 1: 1 PHOTO = 850 GDS -->
+                <div class="rounded-3xl bg-[#161224] border border-purple-800/50 p-6 sm:p-8 flex flex-col justify-between hover:border-amber-400/60 transition duration-300 shadow-xl">
+                    <div>
+                        <div class="flex items-center justify-between mb-5">
+                            <span class="px-3 py-1 rounded-xl bg-purple-900/60 text-purple-200 text-xs font-bold">
+                                Pake Dekouvèt
+                            </span>
+                            <div class="w-10 h-10 rounded-2xl bg-purple-900/40 flex items-center justify-center text-amber-400">
+                                <i class="fa-solid fa-image text-lg"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-display font-extrabold text-2xl text-white mb-2">1 Photo</h3>
+                        <p class="text-slate-400 text-sm mb-6">Ideyal pou yon pòtrè pwofesyonèl, foto pwofil oswa souvni rapid.</p>
+                        
+                        <div class="mb-6 pb-6 border-b border-purple-900/50">
+                            <div class="flex items-baseline gap-1.5">
+                                <span class="font-display font-black text-4xl sm:text-5xl text-amber-400">850</span>
+                                <span class="font-bold text-lg text-slate-300">GDS</span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>1 Foto Pwofesyonèl Retouche</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>Limyè Estidyo Modèn</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>Livrezon rapid sou telefòn/imèl</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <a href="https://wa.me/50938237242?text=Bonjou%20Perfect%20Studio%20Photo%2C%20mwen%20ta%20renmen%20rez%C3%A8ve%20Pake%201%20Photo%20(850%20GDS)." target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-purple-700 hover:bg-purple-600 text-white font-bold text-sm transition">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Rezève Pake sa a</span>
+                        </a>
+                        <button type="button" onclick="selectPackageInForm(1)" class="w-full py-2.5 px-4 rounded-xl bg-transparent hover:bg-purple-950/60 border border-purple-700/50 text-xs font-semibold text-amber-300 transition">
+                            Chwazi nan fòmilè anba a
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PAKE 2: 2 PHOTOS = 1,700 GDS -->
+                <div class="rounded-3xl bg-[#161224] border border-purple-800/50 p-6 sm:p-8 flex flex-col justify-between hover:border-amber-400/60 transition duration-300 shadow-xl">
+                    <div>
+                        <div class="flex items-center justify-between mb-5">
+                            <span class="px-3 py-1 rounded-xl bg-purple-900/60 text-purple-200 text-xs font-bold">
+                                Pake Duo
+                            </span>
+                            <div class="w-10 h-10 rounded-2xl bg-purple-900/40 flex items-center justify-center text-amber-400">
+                                <i class="fa-solid fa-images text-lg"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-display font-extrabold text-2xl text-white mb-2">2 Photos</h3>
+                        <p class="text-slate-400 text-sm mb-6">Pafè pou varye poz yo oswa chanje stil rad nan yon sèl sesyon.</p>
+                        
+                        <div class="mb-6 pb-6 border-b border-purple-900/50">
+                            <div class="flex items-baseline gap-1.5">
+                                <span class="font-display font-black text-4xl sm:text-5xl text-amber-400">1,700</span>
+                                <span class="font-bold text-lg text-slate-300">GDS</span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>2 Foto Pwofesyonèl Retouche</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>2 Diferan Poz oswa Ang</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>Kalite Segondè (HD)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <a href="https://wa.me/50938237242?text=Bonjou%20Perfect%20Studio%20Photo%2C%20mwen%20ta%20renmen%20rez%C3%A8ve%20Pake%202%20Photos%20(1%2C700%20GDS)." target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-purple-700 hover:bg-purple-600 text-white font-bold text-sm transition">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Rezève Pake sa a</span>
+                        </a>
+                        <button type="button" onclick="selectPackageInForm(2)" class="w-full py-2.5 px-4 rounded-xl bg-transparent hover:bg-purple-950/60 border border-purple-700/50 text-xs font-semibold text-amber-300 transition">
+                            Chwazi nan fòmilè anba a
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PAKE 3: 3 PHOTOS = 2,500 GDS (PI BON PRI / EKONOMIZE 50 GDS) -->
+                <div class="relative rounded-3xl bg-gradient-to-b from-[#231842] to-[#161224] border-2 border-amber-400 p-6 sm:p-8 flex flex-col justify-between shadow-2xl shadow-amber-500/15">
+                    <!-- Badj Pi Bon Pri -->
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-extrabold text-xs px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+                        <i class="fa-solid fa-crown"></i>
+                        <span>PI BON PRI • EKONOMIZE 50 GDS</span>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-5 mt-2">
+                            <span class="px-3 py-1 rounded-xl bg-amber-400/20 text-amber-300 text-xs font-bold">
+                                Pake VIP Popilè
+                            </span>
+                            <div class="w-10 h-10 rounded-2xl bg-amber-400/20 flex items-center justify-center text-amber-400">
+                                <i class="fa-solid fa-star text-lg"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-display font-extrabold text-2xl text-white mb-2">3 Photos</h3>
+                        <p class="text-slate-300 text-sm mb-6">Pi bon chwa a pou yon sesyon konplè ak bèl ekonomi sou pri a!</p>
+                        
+                        <div class="mb-6 pb-6 border-b border-purple-700/50">
+                            <div class="flex items-baseline gap-1.5">
+                                <span class="font-display font-black text-4xl sm:text-5xl text-amber-400">2,500</span>
+                                <span class="font-bold text-lg text-slate-200">GDS</span>
+                            </div>
+                            <p class="text-xs text-emerald-400 font-semibold mt-1">
+                                <i class="fa-solid fa-tag mr-1"></i> Olye de 2,550 GDS (Ou ekonomize 50 GDS)
+                            </p>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-slate-200 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>3 Foto Pwofesyonèl Retouche</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>Plizyè poz ak chanjman dekorasyon</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>Pri espesyal rabè enkli</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <a href="https://wa.me/50938237242?text=Bonjou%20Perfect%20Studio%20Photo%2C%20mwen%20ta%20renmen%20rez%C3%A8ve%20Pake%203%20Photos%20(2%2C500%20GDS%20-%20Pi%20Bon%20Pri)." target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 py-4 px-4 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-500/25 transition">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Rezève Pake VIP sa a</span>
+                        </a>
+                        <button type="button" onclick="selectPackageInForm(3)" class="w-full py-2.5 px-4 rounded-xl bg-purple-950/60 hover:bg-purple-900/70 border border-amber-400/40 text-xs font-semibold text-amber-300 transition">
+                            Chwazi nan fòmilè anba a
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKSYON ENTÈAKTIF POU FÈ REZÈVASYON SOU WHATSAPP -->
+    <section id="rezèvasyon" class="py-16 sm:py-24 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="rounded-3xl bg-gradient-to-br from-[#19132b] to-[#110d1e] border border-purple-500/40 p-6 sm:p-10 shadow-2xl">
+                <div class="text-center max-w-xl mx-auto mb-8">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-900/60 border border-purple-500/40 text-amber-300 text-xs font-bold mb-3">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Rezèvasyon Rapid
+                    </span>
+                    <h2 class="font-display font-black text-2xl sm:text-3xl text-white mb-2">
+                        Prepare Rezèvasyon Ou Kounye a
+                    </h2>
+                    <p class="text-slate-400 text-sm">
+                        Chwazi kantite foto ou vle, mete non ou ak dat la, epi voye mesaj la dirèkteman sou WhatsApp <strong class="text-amber-400">+509 3823-7242</strong> oswa <strong class="text-amber-400">+509 3522-7208</strong>.
+                    </p>
+                </div>
+
+                <form id="booking-form" class="space-y-6">
+                    <!-- Chwa Kantite Foto / Pake -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-200 mb-3">
+                            1. Chwazi kantite foto oswa pake ou vle a :
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="photo-options">
+                            <!-- Opsyon 1 -->
+                            <button type="button" data-photos="1" class="photo-choice-btn p-3.5 rounded-2xl border-2 border-purple-800/60 bg-[#0e0b18] text-left transition hover:border-amber-400/70">
+                                <div class="font-display font-extrabold text-white text-base">1 Photo</div>
+                                <div class="text-amber-400 font-bold text-sm">850 GDS</div>
+                            </button>
+                            <!-- Opsyon 2 -->
+                            <button type="button" data-photos="2" class="photo-choice-btn p-3.5 rounded-2xl border-2 border-purple-800/60 bg-[#0e0b18] text-left transition hover:border-amber-400/70">
+                                <div class="font-display font-extrabold text-white text-base">2 Photos</div>
+                                <div class="text-amber-400 font-bold text-sm">1,700 GDS</div>
+                            </button>
+                            <!-- Opsyon 3 (Default selected) -->
+                            <button type="button" data-photos="3" class="photo-choice-btn active p-3.5 rounded-2xl border-2 border-amber-400 bg-purple-950/70 text-left transition relative">
+                                <span class="absolute -top-2.5 right-2 bg-amber-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full">-50 GDS</span>
+                                <div class="font-display font-extrabold text-white text-base">3 Photos</div>
+                                <div class="text-amber-400 font-bold text-sm">2,500 GDS</div>
+                            </button>
+                            <!-- Opsyon Plis ke 3 foto -->
+                            <div class="p-3 rounded-2xl border-2 border-purple-800/60 bg-[#0e0b18] flex flex-col justify-between">
+                                <label for="custom-photo-count" class="text-xs font-bold text-slate-300">Lòt kantite :</label>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <input type="number" id="custom-photo-count" min="1" max="50" placeholder="Ex: 4" class="w-full bg-[#19142b] border border-purple-700/60 rounded-xl px-2.5 py-1.5 text-sm text-white font-bold focus:outline-none focus:border-amber-400">
+                                    <span class="text-xs text-slate-400">foto</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Non Kliyan, Dat Rezèvasyon & Nimewo WhatsApp -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label for="client-name" class="block text-sm font-bold text-slate-200 mb-2">
+                                2. Non konplè ou :
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-purple-400">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <input type="text" id="client-name" required placeholder="Ekri non ou isit la..." class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#0e0b18] border border-purple-700/60 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-400 transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="booking-date" class="block text-sm font-bold text-slate-200 mb-2">
+                                3. Dat ou ta renmen vini :
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-amber-400">
+                                    <i class="fa-solid fa-calendar-day"></i>
+                                </span>
+                                <input type="date" id="booking-date" class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#0e0b18] border border-purple-700/60 text-white text-sm focus:outline-none focus:border-amber-400 transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="whatsapp-target" class="block text-sm font-bold text-slate-200 mb-2">
+                                4. Voye sou WhatsApp :
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-emerald-400">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </span>
+                                <select id="whatsapp-target" class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#0e0b18] border border-purple-700/60 text-white text-sm font-semibold focus:outline-none focus:border-amber-400 transition">
+                                    <option value="50938237242">+509 3823-7242</option>
+                                    <option value="50935227208">+509 3522-7208</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rezime Pri & Apèsi Mesaj WhatsApp -->
+                    <div class="rounded-2xl bg-[#0c0a14] border border-purple-800/60 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-semibold tracking-wider">Rezime Kòmand Ou</p>
+                            <p id="summary-text" class="text-white font-bold text-base sm:text-lg mt-0.5">
+                                3 Photos • <span class="text-amber-400">2,500 GDS</span>
+                            </p>
+                            <p id="savings-badge" class="text-xs text-emerald-400 font-medium mt-0.5">
+                                Ou benefisye rabè 50 GDS la!
+                            </p>
+                        </div>
+
+                        <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-green-600/20 transition transform active:scale-95">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                            <span>Voye sou WhatsApp</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKSYON ADRÈS & KONTAK -->
+    <section id="kontak" class="py-14 bg-[#100d1b] border-t border-purple-900/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Kat Adrès -->
+                <div class="rounded-2xl bg-[#161224] border border-purple-800/40 p-6 flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-400/15 text-amber-400 flex items-center justify-center shrink-0 text-xl">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base mb-1">Adrès Estidyo a</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Limonade, Route Nationale #6<br>
+                            <span class="text-slate-400 text-xs">Ayiti (Fasil pou jwenn sou wout nasyonal la)</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kat Telefòn & WhatsApp -->
+                <div class="rounded-2xl bg-[#161224] border border-purple-800/40 p-6 flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-600/20 text-purple-400 flex items-center justify-center shrink-0 text-xl">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="w-full space-y-3">
+                        <h3 class="font-bold text-white text-base">Telefòn & WhatsApp</h3>
+
+                        <!-- Nimewo 1: 3823-7242 -->
+                        <div class="pb-2.5 border-b border-purple-900/40">
+                            <p class="text-amber-400 font-display font-extrabold text-base mb-1.5">+509 3823-7242</p>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <a href="tel:+50938237242" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-white transition">
+                                    Rele
+                                </a>
+                                <a href="https://wa.me/50938237242?text=Bonjou%20Perfect%20Studio%20Photo%2C%20mwen%20ta%20renmen%20gen%20enf%C3%B2masyon." target="_blank" rel="noopener noreferrer" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 transition">
+                                    WhatsApp
+                                </a>
+                                <button type="button" onclick="copyPhoneNumber('38237242')" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 transition">
+                                    <i class="fa-regular fa-copy mr-1"></i> Kopye
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Nimewo 2: 3522-7208 -->
+                        <div>
+                            <p class="text-amber-400 font-display font-extrabold text-base mb-1.5">+509 3522-7208</p>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <a href="tel:+50935227208" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-white transition">
+                                    Rele
+                                </a>
+                                <a href="https://wa.me/50935227208?text=Bonjou%20Perfect%20Studio%20Photo%2C%20mwen%20ta%20renmen%20gen%20enf%C3%B2masyon." target="_blank" rel="noopener noreferrer" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 transition">
+                                    WhatsApp
+                                </a>
+                                <button type="button" onclick="copyPhoneNumber('35227208')" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 transition">
+                                    <i class="fa-regular fa-copy mr-1"></i> Kopye
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kat Orè & Sèvis -->
+                <div class="rounded-2xl bg-[#161224] border border-purple-800/40 p-6 flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-400/15 text-amber-400 flex items-center justify-center shrink-0 text-xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base mb-1">Disponibilite</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Lendi - Samdi : 8:00 AM - 6:00 PM<br>
+                            <span class="text-amber-300 text-xs font-medium">Dimanch : Sou rezèvasyon WhatsApp</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#09070f] border-t border-purple-950/60 py-8 text-center">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="font-display font-black text-white tracking-wide">PERFECT STUDIO PHOTO</span>
+                <span class="text-purple-500">•</span>
+                <span class="text-slate-400 text-xs">Limonade, RN #6</span>
+            </div>
+            <p class="text-slate-500 text-xs">
+                &copy; <span id="current-year"></span> Perfect Studio Photo. Tout dwa rezève.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bouton WhatsApp Flotan anba agòch pou mobil -->
+    <a href="https://wa.me/50938237242?text=Bonjou%20Perfect%20Studio%20Photo%2C%20mwen%20ta%20renmen%20f%C3%A8%20yon%20rez%C3%A8vasyon." target="_blank" rel="noopener noreferrer" aria-label="Kontakte nou sou WhatsApp" class="fixed bottom-5 left-5 z-40 sm:hidden w-14 h-14 rounded-full bg-green-500 hover:bg-green-400 text-white shadow-2xl flex items-center justify-center text-2xl transition transform active:scale-90">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Mete ane aktyèl la nan footer a
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Mete dat jodi a kòm minimòm nan kalandriye a
+        const dateInput = document.getElementById('booking-date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+        dateInput.value = today;
+
+        // Fonksyon pou montre ti mesaj notifikasyon (san alert())
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3500);
+        }
+
+        // Fonksyon pou kopye nimewo telefòn nan (avèk execCommand pou konpatibilite iframe)
+        function copyPhoneNumber(number = '38237242') {
+            const tempInput = document.createElement('input');
+            tempInput.value = number;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            const formatted = number.length === 8 ? `${number.slice(0, 4)}-${number.slice(4)}` : number;
+            showToast(`Nimewo ${formatted} kopye!`);
+        }
+
+        // Jesyon chaje pwòp fichye logo itilizatè a
+        const logoUploadInput = document.getElementById('logo-upload');
+        const customLogoImg = document.getElementById('custom-logo-img');
+        const defaultSvgLogo = document.getElementById('default-svg-logo');
+
+        logoUploadInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    customLogoImg.src = e.target.result;
+                    customLogoImg.classList.remove('hidden');
+                    defaultSvgLogo.classList.add('hidden');
+                    showToast('Nouvo logo ou a chaje ak siksè!');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Lojik Kalkilatè Pri & Pake Rezèvasyon
+        let selectedPhotos = 3;
+        const choiceButtons = document.querySelectorAll('.photo-choice-btn');
+        const customCountInput = document.getElementById('custom-photo-count');
+        const summaryText = document.getElementById('summary-text');
+        const savingsBadge = document.getElementById('savings-badge');
+
+        // Kalkil pri dapre tarif estidyo a (1 = 850, 2 = 1700, 3 = 2500, >3 = 2500 + (n-3)*850)
+        function calculatePrice(count) {
+            if (count <= 0) return { total: 0, savings: 0 };
+            if (count === 1) return { total: 850, savings: 0 };
+            if (count === 2) return { total: 1700, savings: 0 };
+            if (count === 3) return { total: 2500, savings: 50 };
+            // Pou plis pase 3 foto: pake 3 foto (2500) + 850 pou chak foto anplis
+            const extraPhotos = count - 3;
+            return { total: 2500 + (extraPhotos * 850), savings: 50 };
+        }
+
+        function updateSummaryUI() {
+            const { total, savings } = calculatePrice(selectedPhotos);
+            const label = selectedPhotos === 1 ? '1 Photo' : `${selectedPhotos} Photos`;
+            summaryText.innerHTML = `${label} • <span class="text-amber-400">${total.toLocaleString('en-US')} GDS</span>`;
+            
+            if (savings > 0) {
+                savingsBadge.textContent = `Ou benefisye rabè ${savings} GDS la!`;
+                savingsBadge.classList.remove('hidden');
+            } else {
+                savingsBadge.classList.add('hidden');
+            }
+        }
+
+        function setActiveButton(photoCount) {
+            choiceButtons.forEach(btn => {
+                const btnPhotos = parseInt(btn.getAttribute('data-photos'), 10);
+                if (btnPhotos === photoCount) {
+                    btn.classList.remove('border-purple-800/60', 'bg-[#0e0b18]');
+                    btn.classList.add('border-amber-400', 'bg-purple-950/70');
+                } else {
+                    btn.classList.remove('border-amber-400', 'bg-purple-950/70');
+                    btn.classList.add('border-purple-800/60', 'bg-[#0e0b18]');
+                }
+            });
+        }
+
+        // Klike sou youn nan 3 bouton pake yo
+        choiceButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectedPhotos = parseInt(btn.getAttribute('data-photos'), 10);
+                customCountInput.value = '';
+                setActiveButton(selectedPhotos);
+                updateSummaryUI();
+            });
+        });
+
+        // Antre yon kantite pèsonalize
+        customCountInput.addEventListener('input', () => {
+            const val = parseInt(customCountInput.value, 10);
+            if (!isNaN(val) && val >= 1) {
+                selectedPhotos = val;
+                setActiveButton(val <= 3 ? val : -1);
+                updateSummaryUI();
+            }
+        });
+
+        // Fonksyon lè kliyan klike "Chwazi nan fòmilè anba a" depi kat pake yo
+        function selectPackageInForm(photoCount) {
+            selectedPhotos = photoCount;
+            customCountInput.value = '';
+            setActiveButton(photoCount);
+            updateSummaryUI();
+            document.getElementById('rezèvasyon').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                document.getElementById('client-name').focus();
+            }, 600);
+        }
+
+        // Soumisyon Fòmilè pou ouvri WhatsApp dirèkteman
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const clientName = document.getElementById('client-name').value.trim();
+            const bookingDate = document.getElementById('booking-date').value;
+            const targetNumber = document.getElementById('whatsapp-target').value || '50938237242';
+
+            if (!clientName) {
+                showToast('Tanpri antre non ou anvan ou voye rezèvasyon an.');
+                document.getElementById('client-name').focus();
+                return;
+            }
+
+            const { total } = calculatePrice(selectedPhotos);
+            const photoLabel = selectedPhotos === 1 ? '1 Photo' : `${selectedPhotos} Photos`;
+            const formattedDate = bookingDate ? bookingDate : 'Pi vit posib';
+
+            const message = `Bonjou *Perfect Studio Photo*! 📸\n\n` +
+                `Mwen ta renmen fè yon rezèvasyon :\n` +
+                `• *Non :* ${clientName}\n` +
+                `• *Pake / Kantite :* ${photoLabel}\n` +
+                `• *Pri Total :* ${total.toLocaleString('en-US')} GDS\n` +
+                `• *Dat :* ${formattedDate}\n\n` +
+                `Mèsi!`;
+
+            const whatsappUrl = `https://wa.me/${targetNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        });
+    </script>
+</body>
+</html>
